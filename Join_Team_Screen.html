@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园篮球联盟管理APP - 申请加入球队</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1E90FF;
+            --secondary: #FF8C00;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --accent: #FF3B30;
+            --success: #28CD41;
+            --warning: #FFCC00;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            max-width: 414px;
+            height: 100vh;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            height: 44px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            justify-content: center;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .header-left, .header-right {
+            width: 60px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--spacing-md);
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            font-size: 15px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: none;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .submit-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        /* 球队信息样式 */
+        .team-info-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .team-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: #eee;
+            margin-right: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .team-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .team-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .team-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .team-stat {
+            text-align: center;
+        }
+        
+        .team-stat-value {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .team-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 选择框样式 */
+        .select-container {
+            position: relative;
+        }
+
+        .select-container::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 30px;
+        }
+
+        /* 上传照片区域 */
+        .photo-upload {
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .photo-upload i {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left clickable">
+                <a href="Team_List_Screen.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="header-title">申请加入球队</div>
+            <div class="header-right"></div>
+        </div>
+        
+        <div class="content">
+            <!-- 球队信息 -->
+            <div class="team-info-card">
+                <div class="team-header">
+                    <div class="team-logo">
+                        <i class="fas fa-basketball" style="font-size: 24px; color: var(--primary);"></i>
+                    </div>
+                    <div>
+                        <div class="team-name">计算机学院篮球队</div>
+                        <div class="team-meta">成员：12/15 · 招募中</div>
+                    </div>
+                </div>
+                
+                <div class="team-stats">
+                    <div class="team-stat">
+                        <div class="team-stat-value">15</div>
+                        <div class="team-stat-label">比赛</div>
+                    </div>
+                    <div class="team-stat">
+                        <div class="team-stat-value">11</div>
+                        <div class="team-stat-label">胜利</div>
+                    </div>
+                    <div class="team-stat">
+                        <div class="team-stat-value">4</div>
+                        <div class="team-stat-label">失败</div>
+                    </div>
+                    <div class="team-stat">
+                        <div class="team-stat-value">73%</div>
+                        <div class="team-stat-label">胜率</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 申请表单 -->
+            <h2 style="font-size: 18px; margin-bottom: 16px;">申请信息</h2>
+            
+            <div class="form-group">
+                <div class="form-label">姓名</div>
+                <input type="text" class="form-control" placeholder="请输入你的真实姓名">
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">学号</div>
+                <input type="text" class="form-control" placeholder="请输入你的学号">
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">年级</div>
+                <div class="select-container">
+                    <select class="form-control">
+                        <option value="" disabled selected>请选择</option>
+                        <option value="大一">大一</option>
+                        <option value="大二">大二</option>
+                        <option value="大三">大三</option>
+                        <option value="大四">大四</option>
+                        <option value="研一">研一</option>
+                        <option value="研二">研二</option>
+                        <option value="研三">研三</option>
+                        <option value="博士">博士</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">学院</div>
+                <div class="select-container">
+                    <select class="form-control">
+                        <option value="" disabled selected>请选择</option>
+                        <option value="计算机学院">计算机学院</option>
+                        <option value="物理学院">物理学院</option>
+                        <option value="化学学院">化学学院</option>
+                        <option value="数学学院">数学学院</option>
+                        <option value="经济学院">经济学院</option>
+                        <option value="法学院">法学院</option>
+                        <option value="外语学院">外语学院</option>
+                        <option value="信息学院">信息学院</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">擅长位置</div>
+                <div class="select-container">
+                    <select class="form-control">
+                        <option value="" disabled selected>请选择</option>
+                        <option value="控球后卫">控球后卫</option>
+                        <option value="得分后卫">得分后卫</option>
+                        <option value="小前锋">小前锋</option>
+                        <option value="大前锋">大前锋</option>
+                        <option value="中锋">中锋</option>
+                        <option value="多位置">多位置</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">篮球经历</div>
+                <textarea class="form-control" placeholder="请简单介绍你的篮球经历、比赛经验等"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">加入原因</div>
+                <textarea class="form-control" placeholder="请简单描述你想加入球队的原因"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">上传照片（选填）</div>
+                <div class="photo-upload clickable">
+                    <i class="fas fa-camera"></i>
+                    <div>点击上传你的照片</div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">可以是打球照片或个人照片</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">联系方式</div>
+                <input type="tel" class="form-control" placeholder="请输入你的手机号码">
+            </div>
+            
+            <div class="form-group">
+                <button class="submit-button clickable">提交申请</button>
+            </div>
+            
+            <div style="font-size: 12px; color: var(--text-secondary); text-align: center; margin: 20px 0 30px;">
+                提交后，球队管理员将在3个工作日内审核你的申请
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园篮球联盟管理APP - 球队列表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1E90FF;
+            --secondary: #FF8C00;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --accent: #FF3B30;
+            --success: #28CD41;
+            --warning: #FFCC00;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            max-width: 414px;
+            height: 100vh;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            height: 44px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            justify-content: center;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .header-left, .header-right {
+            width: 60px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--spacing-md);
+        }
+        
+        .tab-bar {
+            height: 50px;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            width: 25%;
+            color: var(--text-secondary);
+            font-size: 10px;
+        }
+        
+        .tab i {
+            font-size: 22px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+        }
+        
+        /* 搜索框样式 */
+        .search-box {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .search-box i {
+            color: var(--text-secondary);
+            margin-right: 8px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            flex: 1;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        /* 筛选标签 */
+        .filter-tags {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .filter-tag {
+            white-space: nowrap;
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            margin-right: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .filter-tag.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* 球队列表样式 */
+        .team-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex;
+        }
+        
+        .team-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 32px;
+            background: #eee;
+            margin-right: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .team-info {
+            flex: 1;
+        }
+        
+        .team-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .team-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: white;
+            margin-left: 8px;
+            font-weight: normal;
+        }
+        
+        .team-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .team-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+        }
+        
+        .team-join {
+            padding: 6px 14px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        
+        .clickable {
+            cursor: pointer;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left clickable">
+                <a href="Campus_Basketball_App_Prototype.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="header-title">球队列表</div>
+            <div class="header-right">
+                <i class="fas fa-plus clickable"></i>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索球队名称、学院等">
+            </div>
+            
+            <!-- 筛选标签 -->
+            <div class="filter-tags">
+                <div class="filter-tag active clickable">全部</div>
+                <div class="filter-tag clickable">理工学院</div>
+                <div class="filter-tag clickable">文科学院</div>
+                <div class="filter-tag clickable">招募中</div>
+                <div class="filter-tag clickable">胜率最高</div>
+                <div class="filter-tag clickable">新创建</div>
+            </div>
+            
+            <!-- 球队列表 -->
+            <div class="team-item clickable">
+                <div class="team-logo">
+                    <i class="fas fa-basketball" style="font-size: 24px; color: var(--primary);"></i>
+                </div>
+                <div class="team-info">
+                    <div class="team-name">
+                        计算机学院篮球队
+                        <span class="team-badge" style="background: var(--success);">招募中</span>
+                    </div>
+                    <div class="team-meta">
+                        <span>成员: 12/15</span>
+                        <span>建队: 2023年9月</span>
+                    </div>
+                    <div class="team-stats">
+                        <span style="color: var(--primary);">胜率: 73%</span>
+                        <span>15场比赛</span>
+                    </div>
+                    <div class="team-join clickable">
+                        申请加入
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-item clickable">
+                <div class="team-logo">
+                    <i class="fas fa-basketball" style="font-size: 24px; color: var(--secondary);"></i>
+                </div>
+                <div class="team-info">
+                    <div class="team-name">
+                        物理学院篮球队
+                    </div>
+                    <div class="team-meta">
+                        <span>成员: 15/15</span>
+                        <span>建队: 2022年10月</span>
+                    </div>
+                    <div class="team-stats">
+                        <span style="color: var(--primary);">胜率: 80%</span>
+                        <span>20场比赛</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-item clickable">
+                <div class="team-logo">
+                    <i class="fas fa-basketball" style="font-size: 24px; color: var(--accent);"></i>
+                </div>
+                <div class="team-info">
+                    <div class="team-name">
+                        化学学院篮球队
+                        <span class="team-badge" style="background: var(--success);">招募中</span>
+                    </div>
+                    <div class="team-meta">
+                        <span>成员: 9/15</span>
+                        <span>建队: 2023年11月</span>
+                    </div>
+                    <div class="team-stats">
+                        <span style="color: var(--primary);">胜率: 60%</span>
+                        <span>10场比赛</span>
+                    </div>
+                    <div class="team-join clickable">
+                        申请加入
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-item clickable">
+                <div class="team-logo">
+                    <i class="fas fa-basketball" style="font-size: 24px; color: var(--warning);"></i>
+                </div>
+                <div class="team-info">
+                    <div class="team-name">
+                        外语学院篮球队
+                        <span class="team-badge" style="background: var(--warning);">新建</span>
+                    </div>
+                    <div class="team-meta">
+                        <span>成员: 7/15</span>
+                        <span>建队: 2024年3月</span>
+                    </div>
+                    <div class="team-stats">
+                        <span style="color: var(--primary);">胜率: 50%</span>
+                        <span>4场比赛</span>
+                    </div>
+                    <div class="team-join clickable">
+                        申请加入
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-item clickable">
+                <div class="team-logo">
+                    <i class="fas fa-basketball" style="font-size: 24px; color: var(--primary);"></i>
+                </div>
+                <div class="team-info">
+                    <div class="team-name">
+                        经济学院篮球队
+                    </div>
+                    <div class="team-meta">
+                        <span>成员: 14/15</span>
+                        <span>建队: 2022年9月</span>
+                    </div>
+                    <div class="team-stats">
+                        <span style="color: var(--primary);">胜率: 75%</span>
+                        <span>16场比赛</span>
+                    </div>
+                    <div class="team-join clickable">
+                        申请加入
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab">
+                <a href="Campus_Basketball_App_Prototype.html">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+            </div>
+            <div class="tab active">
+                <i class="fas fa-basketball"></i>
+                <span>赛事</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-comments"></i>
+                <span>论坛</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

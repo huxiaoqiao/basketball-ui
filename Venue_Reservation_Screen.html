@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园篮球联盟管理APP - 场地预约</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1E90FF;
+            --secondary: #FF8C00;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --accent: #FF3B30;
+            --success: #28CD41;
+            --warning: #FFCC00;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            max-width: 414px;
+            height: 100vh;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            height: 44px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .header-left, .header-right {
+            width: 60px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: var(--background);
+        }
+
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 14px 0;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* 日历选择器 */
+        .calendar-header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .month-selector {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .month-nav-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: white;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 1px;
+            background: white;
+            padding: 5px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+
+        .day-number {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 16px;
+        }
+
+        .day-has-events {
+            position: relative;
+        }
+
+        .day-has-events::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--primary);
+        }
+
+        .day-cell.selected .day-number {
+            background: var(--primary);
+            color: white;
+        }
+
+        .day-cell.today .day-number {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .day-cell.other-month {
+            opacity: 0.4;
+        }
+
+        /* 场地列表 */
+        .venue-section {
+            padding: 16px;
+            margin-top: 10px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .section-action {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .venue-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .venue-image {
+            height: 150px;
+            background: #eee;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .venue-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .venue-content {
+            padding: 12px 16px;
+        }
+
+        .venue-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .venue-meta {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .venue-meta-item {
+            display: flex;
+            align-items: center;
+            margin-right: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .venue-meta-item i {
+            margin-right: 4px;
+            font-size: 14px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .venue-availability {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .availability-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+
+        .available {
+            background: rgba(40, 205, 65, 0.1);
+            color: var(--success);
+        }
+
+        .busy {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--accent);
+        }
+
+        .limited {
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .venue-action {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .venue-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 时间段选择 */
+        .time-slots {
+            display: flex;
+            overflow-x: auto;
+            padding: 5px 0 15px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE 10+ */
+            margin: 0 -5px;
+        }
+
+        .time-slots::-webkit-scrollbar {
+            display: none; /* Chrome Safari */
+        }
+
+        .time-slot {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            margin: 0 5px;
+            flex-shrink: 0;
+            background: white;
+        }
+
+        .time-slot.available {
+            border-color: var(--success);
+            background: rgba(40, 205, 65, 0.05);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-slot.unavailable {
+            background: #f5f5f5;
+            color: #aaa;
+            border-color: #ddd;
+        }
+
+        /* 筛选面板 */
+        .filter-panel {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .filter-tag {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 13px;
+            margin-right: 8px;
+            color: var(--text-secondary);
+        }
+
+        .filter-tag.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-box i {
+            color: #999;
+            margin-right: 8px;
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            flex: 1;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left clickable">
+                <a href="Campus_Basketball_App_Prototype.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="header-title">场地预约</div>
+            <div class="header-right">
+                <i class="fas fa-ellipsis-v clickable"></i>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- 标签页 -->
+            <div class="tabs">
+                <div class="tab active clickable">场馆预约</div>
+                <div class="tab clickable">我的预约</div>
+                <div class="tab clickable">预约规则</div>
+            </div>
+            
+            <!-- 筛选面板 -->
+            <div class="filter-panel">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="搜索场地名称">
+                </div>
+                
+                <div class="filter-row">
+                    <div class="filter-tag active clickable">全部场馆</div>
+                    <div class="filter-tag clickable">主体育馆</div>
+                    <div class="filter-tag clickable">室外场地</div>
+                    <div class="filter-tag clickable">二体育馆</div>
+                </div>
+                
+                <div class="filter-row">
+                    <div class="filter-tag active clickable">全场</div>
+                    <div class="filter-tag clickable">半场</div>
+                    <div class="filter-tag clickable">有空调</div>
+                    <div class="filter-tag clickable">有淋浴</div>
+                </div>
+            </div>
+            
+            <!-- 日历选择器 -->
+            <div class="calendar-header">
+                <div class="month-selector">2024年5月</div>
+                <div class="month-nav">
+                    <div class="month-nav-btn clickable">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="month-nav-btn clickable">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="weekdays">
+                <div class="weekday">日</div>
+                <div class="weekday">一</div>
+                <div class="weekday">二</div>
+                <div class="weekday">三</div>
+                <div class="weekday">四</div>
+                <div class="weekday">五</div>
+                <div class="weekday">六</div>
+            </div>
+            
+            <div class="days-grid">
+                <div class="day-cell other-month">
+                    <div class="day-number">28</div>
+                </div>
+                <div class="day-cell other-month">
+                    <div class="day-number">29</div>
+                </div>
+                <div class="day-cell other-month">
+                    <div class="day-number">30</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">1</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">2</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">3</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">4</div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">5</div>
+                </div>
+                <div class="day-cell today">
+                    <div class="day-number day-has-events">6</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">7</div>
+                </div>
+                <div class="day-cell selected">
+                    <div class="day-number day-has-events">8</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number day-has-events">9</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">10</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">11</div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">12</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">13</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number day-has-events">14</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">15</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">16</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">17</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">18</div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">19</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">20</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">21</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">22</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">23</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">24</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">25</div>
+                </div>
+                
+                <div class="day-cell">
+                    <div class="day-number">26</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">27</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">28</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">29</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">30</div>
+                </div>
+                <div class="day-cell">
+                    <div class="day-number">31</div>
+                </div>
+                <div class="day-cell other-month">
+                    <div class="day-number">1</div>
+                </div>
+            </div>
+            
+            <!-- 时间段选择 -->
+            <div style="background: white; padding: 16px 16px 5px;">
+                <div style="margin-bottom: 10px; font-weight: 500; font-size: 14px;">选择时间段</div>
+                <div class="time-slots">
+                    <div class="time-slot unavailable">08:00-09:30</div>
+                    <div class="time-slot unavailable">09:30-11:00</div>
+                    <div class="time-slot available selected">13:30-15:00</div>
+                    <div class="time-slot available">15:00-16:30</div>
+                    <div class="time-slot available">16:30-18:00</div>
+                    <div class="time-slot available">18:00-19:30</div>
+                    <div class="time-slot available">19:30-21:00</div>
+                </div>
+            </div>
+            
+            <!-- 可用场馆 -->
+            <div class="venue-section">
+                <div class="section-header">
+                    <div class="section-title">可用场馆</div>
+                    <div class="section-action clickable">筛选</div>
+                </div>
+                
+                <div class="venue-card clickable">
+                    <div class="venue-image" style="background-image: url('https://placehold.co/600x400/1E90FF/FFFFFF')">
+                        <div class="venue-tag">人气场馆</div>
+                    </div>
+                    <div class="venue-content">
+                        <div class="venue-name">主体育馆 - 全场A</div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>主校区东区</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-basketball"></i>
+                                <span>全场比赛</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.8分 (128条评价)</span>
+                            </div>
+                        </div>
+                        <div class="venue-availability">
+                            <span class="availability-badge available">有空余</span>
+                            <span>13:30-15:00已选时段</span>
+                        </div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-snowflake"></i>
+                                <span>空调</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-shower"></i>
+                                <span>淋浴</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>免费</span>
+                            </div>
+                        </div>
+                        <div class="venue-action">
+                            <button class="venue-btn clickable">立即预约</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-card clickable">
+                    <div class="venue-image" style="background-image: url('https://placehold.co/600x400/FF8C00/FFFFFF')">
+                        <div class="venue-tag">室外场地</div>
+                    </div>
+                    <div class="venue-content">
+                        <div class="venue-name">室外篮球场 - B区</div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>主校区西区</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-basketball"></i>
+                                <span>全场</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.5分 (86条评价)</span>
+                            </div>
+                        </div>
+                        <div class="venue-availability">
+                            <span class="availability-badge limited">余位有限</span>
+                            <span>13:30-15:00只剩2个半场</span>
+                        </div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-sun"></i>
+                                <span>露天</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-moon"></i>
+                                <span>夜间照明</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>免费</span>
+                            </div>
+                        </div>
+                        <div class="venue-action">
+                            <button class="venue-btn clickable">立即预约</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-card clickable">
+                    <div class="venue-image" style="background-image: url('https://placehold.co/600x400/333333/FFFFFF')">
+                        <div class="venue-tag">二体育馆</div>
+                    </div>
+                    <div class="venue-content">
+                        <div class="venue-name">二体育馆 - 半场C</div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>新校区</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-basketball"></i>
+                                <span>半场</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.6分 (92条评价)</span>
+                            </div>
+                        </div>
+                        <div class="venue-availability">
+                            <span class="availability-badge available">有空余</span>
+                            <span>13:30-15:00 全空闲</span>
+                        </div>
+                        <div class="venue-meta">
+                            <div class="venue-meta-item">
+                                <i class="fas fa-snowflake"></i>
+                                <span>空调</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-wifi"></i>
+                                <span>WiFi</span>
+                            </div>
+                            <div class="venue-meta-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>30元/小时</span>
+                            </div>
+                        </div>
+                        <div class="venue-action">
+                            <button class="venue-btn clickable">立即预约</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; padding: 10px 0 20px;">
+                    <div style="color: var(--text-secondary); font-size: 14px;" class="clickable">
+                        加载更多 <i class="fas fa-angle-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

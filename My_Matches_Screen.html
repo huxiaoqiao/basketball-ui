@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园篮球联盟管理APP - 我的比赛</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1E90FF;
+            --secondary: #FF8C00;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --accent: #FF3B30;
+            --success: #28CD41;
+            --warning: #FFCC00;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            max-width: 414px;
+            height: 100vh;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            height: 44px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            justify-content: center;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .header-left, .header-right {
+            width: 60px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--spacing-md);
+        }
+        
+        .tab-bar {
+            height: 50px;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            width: 25%;
+            color: var(--text-secondary);
+            font-size: 10px;
+        }
+        
+        .tab i {
+            font-size: 22px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+        }
+        
+        /* 切换按钮样式 */
+        .switch-buttons {
+            display: flex;
+            background: #EFEFEF;
+            border-radius: 8px;
+            padding: 2px;
+            margin-bottom: 16px;
+        }
+
+        .switch-button {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .switch-button.active {
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* 比赛项样式 */
+        .match-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .match-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .match-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .match-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .badge-upcoming {
+            background-color: var(--warning);
+        }
+
+        .badge-live {
+            background-color: var(--accent);
+        }
+
+        .badge-completed {
+            background-color: var(--success);
+        }
+
+        .match-content {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .team-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .team-name {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .match-score {
+            display: flex;
+            align-items: center;
+            margin: 0 16px;
+        }
+
+        .score {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .score-separator {
+            margin: 0 8px;
+            color: var(--text-secondary);
+        }
+
+        .match-footer {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .match-info {
+            flex: 1;
+        }
+
+        .match-action {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .match-time {
+            display: block;
+            margin-top: 4px;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .match-vs {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            color: #ddd;
+            margin-bottom: 16px;
+        }
+
+        .empty-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .empty-action {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 15px;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left clickable">
+                <a href="Campus_Basketball_App_Prototype.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="header-title">我的比赛</div>
+            <div class="header-right">
+                <i class="fas fa-calendar clickable"></i>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- 切换按钮 -->
+            <div class="switch-buttons">
+                <div class="switch-button active clickable">即将到来</div>
+                <div class="switch-button clickable">已完成</div>
+            </div>
+            
+            <!-- 即将到来的比赛 -->
+            <div class="match-item clickable">
+                <div class="match-header">
+                    <div class="match-date">2024年4月25日（星期四）</div>
+                    <div class="match-badge badge-upcoming">即将到来</div>
+                </div>
+                <div class="match-content">
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--primary);"></i>
+                        </div>
+                        <div class="team-name">计算机学院</div>
+                    </div>
+                    <div class="match-score">
+                        <div class="match-vs">VS</div>
+                        <div class="match-time">15:30</div>
+                    </div>
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--secondary);"></i>
+                        </div>
+                        <div class="team-name">数学学院</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <div class="match-info">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i>
+                        <span>主体育馆</span>
+                        <span style="margin: 0 6px;">·</span>
+                        <span>小组赛 第3轮</span>
+                    </div>
+                    <div class="match-action clickable">查看详情 <i class="fas fa-angle-right" style="font-size: 12px;"></i></div>
+                </div>
+            </div>
+            
+            <div class="match-item clickable">
+                <div class="match-header">
+                    <div class="match-date">2024年4月28日（星期日）</div>
+                    <div class="match-badge badge-upcoming">即将到来</div>
+                </div>
+                <div class="match-content">
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--primary);"></i>
+                        </div>
+                        <div class="team-name">计算机学院</div>
+                    </div>
+                    <div class="match-score">
+                        <div class="match-vs">VS</div>
+                        <div class="match-time">14:00</div>
+                    </div>
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--accent);"></i>
+                        </div>
+                        <div class="team-name">物理学院</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <div class="match-info">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i>
+                        <span>北区篮球场</span>
+                        <span style="margin: 0 6px;">·</span>
+                        <span>1/4决赛</span>
+                    </div>
+                    <div class="match-action clickable">查看详情 <i class="fas fa-angle-right" style="font-size: 12px;"></i></div>
+                </div>
+            </div>
+            
+            <div class="match-item clickable">
+                <div class="match-header">
+                    <div class="match-date">今天 18:30</div>
+                    <div class="match-badge badge-live" style="animation: blink 1.5s infinite;">进行中</div>
+                </div>
+                <div class="match-content">
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--secondary);"></i>
+                        </div>
+                        <div class="team-name">校联赛全明星队</div>
+                    </div>
+                    <div class="match-score">
+                        <div class="score">48</div>
+                        <div class="score-separator">:</div>
+                        <div class="score">52</div>
+                    </div>
+                    <div class="team-container">
+                        <div class="team-logo">
+                            <i class="fas fa-users" style="font-size: 20px; color: var(--warning);"></i>
+                        </div>
+                        <div class="team-name">经济学院</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <div class="match-info">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i>
+                        <span>主体育馆</span>
+                        <span style="margin: 0 6px;">·</span>
+                        <span>第3节 02:45</span>
+                    </div>
+                    <div class="match-action clickable">实时数据 <i class="fas fa-angle-right" style="font-size: 12px;"></i></div>
+                </div>
+            </div>
+            
+            <!-- 查看更多按钮 -->
+            <div style="margin-top: 20px; margin-bottom: 40px; text-align: center;" class="clickable">
+                <span style="color: var(--primary); font-size: 15px;">查看完整赛程</span>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab">
+                <a href="Campus_Basketball_App_Prototype.html">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+            </div>
+            <div class="tab">
+                <i class="fas fa-basketball"></i>
+                <span>赛事</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-comments"></i>
+                <span>论坛</span>
+            </div>
+            <div class="tab active">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

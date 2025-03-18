@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园篮球联盟管理APP - 赛事日历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1E90FF;
+            --secondary: #FF8C00;
+            --background: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #E0E0E0;
+            --accent: #FF3B30;
+            --success: #28CD41;
+            --warning: #FFCC00;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            max-width: 414px;
+            height: 100vh;
+            margin: 0 auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            height: 44px;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            justify-content: center;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .header-left, .header-right {
+            width: 60px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--spacing-md);
+        }
+        
+        .tab-bar {
+            height: 50px;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            width: 25%;
+            color: var(--text-secondary);
+            font-size: 10px;
+        }
+        
+        .tab i {
+            font-size: 22px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+        }
+        
+        /* 日历视图样式 */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            margin-bottom: 16px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 4px 0;
+            font-weight: 500;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .calendar-day.today {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+        }
+
+        /* 切换按钮样式 */
+        .switch-buttons {
+            display: flex;
+            background: #EFEFEF;
+            border-radius: 8px;
+            padding: 2px;
+            margin-bottom: 16px;
+        }
+
+        .switch-button {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .switch-button.active {
+            background: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left clickable">
+                <a href="Campus_Basketball_App_Prototype.html"><i class="fas fa-arrow-left"></i></a>
+            </div>
+            <div class="header-title">赛事日历</div>
+            <div class="header-right">
+                <i class="fas fa-filter clickable"></i>
+            </div>
+        </div>
+        
+        <div class="content" style="padding-bottom: 80px;">
+            <!-- 视图切换 -->
+            <div class="switch-buttons">
+                <div class="switch-button clickable">列表</div>
+                <div class="switch-button active">日历</div>
+            </div>
+
+            <!-- 月份选择器 -->
+            <div class="calendar-header">
+                <i class="fas fa-chevron-left clickable"></i>
+                <h2 style="font-size: 17px;">2024年4月</h2>
+                <i class="fas fa-chevron-right clickable"></i>
+            </div>
+
+            <!-- 日历网格 -->
+            <div class="calendar-grid">
+                <!-- 星期 -->
+                <div class="calendar-weekday">日</div>
+                <div class="calendar-weekday">一</div>
+                <div class="calendar-weekday">二</div>
+                <div class="calendar-weekday">三</div>
+                <div class="calendar-weekday">四</div>
+                <div class="calendar-weekday">五</div>
+                <div class="calendar-weekday">六</div>
+                
+                <!-- 日期 -->
+                <div class="calendar-day">31</div>
+                <div class="calendar-day">1</div>
+                <div class="calendar-day">2</div>
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day has-event clickable">5</div>
+                <div class="calendar-day has-event clickable">6</div>
+                <div class="calendar-day">7</div>
+                <div class="calendar-day">8</div>
+                <div class="calendar-day">9</div>
+                <div class="calendar-day has-event clickable">10</div>
+                <div class="calendar-day">11</div>
+                <div class="calendar-day">12</div>
+                <div class="calendar-day">13</div>
+                <div class="calendar-day has-event clickable">14</div>
+                <div class="calendar-day">15</div>
+                <div class="calendar-day has-event clickable">16</div>
+                <div class="calendar-day">17</div>
+                <div class="calendar-day">18</div>
+                <div class="calendar-day">19</div>
+                <div class="calendar-day">20</div>
+                <div class="calendar-day">21</div>
+                <div class="calendar-day today has-event clickable">22</div>
+                <div class="calendar-day">23</div>
+                <div class="calendar-day">24</div>
+                <div class="calendar-day has-event clickable">25</div>
+                <div class="calendar-day">26</div>
+                <div class="calendar-day has-event clickable">27</div>
+                <div class="calendar-day has-event clickable">28</div>
+                <div class="calendar-day">29</div>
+                <div class="calendar-day">30</div>
+                <div class="calendar-day">1</div>
+                <div class="calendar-day">2</div>
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+            </div>
+
+            <!-- 今日比赛 -->
+            <h3 style="font-size: 16px; margin-bottom: 12px;">今日比赛 (4月22日)</h3>
+            
+            <!-- 比赛卡片 -->
+            <div style="background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);" class="clickable">
+                <a href="Match_Detail_Screen.html">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="flex: 1; display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 20px; background: #eee; display: flex; justify-content: center; align-items: center; margin-right: 8px;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>化学学院</div>
+                        </div>
+                        <div style="text-align: center; margin: 0 12px;">
+                            <div style="font-weight: 600; color: var(--text-primary);">VS</div>
+                            <div style="font-size: 12px; color: #666;">14:00</div>
+                            <div style="font-size: 12px; background: #FFCC00; color: white; border-radius: 4px; padding: 2px 6px; margin-top: 4px;">即将开始</div>
+                        </div>
+                        <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+                            <div style="margin-right: 8px; text-align: right;">数学学院</div>
+                            <div style="width: 40px; height: 40px; border-radius: 20px; background: #eee; display: flex; justify-content: center; align-items: center;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 12px;">
+                        <div style="flex: 1;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 4px;"></i>
+                            <span>综合体育馆</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-user" style="color: var(--primary); margin-right: 4px;"></i>
+                            <span>裁判：李老师</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);" class="clickable">
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <div style="flex: 1; display: flex; align-items: center;">
+                        <div style="width: 40px; height: 40px; border-radius: 20px; background: #eee; display: flex; justify-content: center; align-items: center; margin-right: 8px;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>经济学院</div>
+                    </div>
+                    <div style="text-align: center; margin: 0 12px;">
+                        <div style="font-weight: 600; color: var(--text-primary);">VS</div>
+                        <div style="font-size: 12px; color: #666;">18:30</div>
+                        <div style="font-size: 12px; background: #ddd; color: #666; border-radius: 4px; padding: 2px 6px; margin-top: 4px;">未开始</div>
+                    </div>
+                    <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+                        <div style="margin-right: 8px; text-align: right;">法学院</div>
+                        <div style="width: 40px; height: 40px; border-radius: 20px; background: #eee; display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; font-size: 12px;">
+                    <div style="flex: 1;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 4px;"></i>
+                        <span>北区篮球场</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-user" style="color: var(--primary); margin-right: 4px;"></i>
+                        <span>裁判：王老师</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-bar">
+            <div class="tab">
+                <a href="Campus_Basketball_App_Prototype.html">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+            </div>
+            <div class="tab active">
+                <i class="fas fa-basketball"></i>
+                <span>赛事</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-comments"></i>
+                <span>论坛</span>
+            </div>
+            <div class="tab">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
