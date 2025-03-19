@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>球队详情 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .team-header {
+            background-color: #007aff;
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 36px;
+        }
+        .team-info {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .info-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            width: 80px;
+            color: #8e8e93;
+            font-size: 14px;
+        }
+        .info-value {
+            flex: 1;
+            font-size: 14px;
+        }
+        .tab-control {
+            display: flex;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            color: #8e8e93;
+        }
+        .tab.active {
+            color: #007aff;
+            border-bottom: 2px solid #007aff;
+            font-weight: 500;
+        }
+        .member-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .member-item:last-child {
+            border-bottom: none;
+        }
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+            color: #8e8e93;
+        }
+        .member-role {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+        .role-captain {
+            background-color: #e5f5ff;
+            color: #007aff;
+        }
+        .role-member {
+            background-color: #f2f2f7;
+            color: #8e8e93;
+        }
+        .action-button {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background-color: #007aff;
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .stat-card {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #007aff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-top: 4px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .match-item {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .match-item:last-child {
+            border-bottom: none;
+        }
+        .match-date {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-bottom: 8px;
+        }
+        .match-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .match-team {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        .match-team.home {
+            justify-content: flex-end;
+            text-align: right;
+        }
+        .match-team-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin: 0 8px;
+        }
+        .match-score {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 0 12px;
+        }
+        .match-result {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .result-win {
+            background-color: #e5f5ff;
+            color: #007aff;
+        }
+        .result-lose {
+            background-color: #ffebeb;
+            color: #ff3b30;
+        }
+        .match-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            background-color: #f2f2f7;
+            color: #8e8e93;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-between items-center">
+            <button class="p-2">
+                <i class="fas fa-chevron-left text-gray-500"></i>
+            </button>
+            <h1 class="text-xl font-bold">球队详情</h1>
+            <button class="p-2">
+                <i class="fas fa-share text-gray-500"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content pb-20">
+        <!-- 球队头部 -->
+        <div class="team-header">
+            <div class="team-logo">
+                <i class="fas fa-basketball-ball"></i>
+            </div>
+            <div class="text-xl font-semibold mb-1">计算机学院篮球队</div>
+            <div class="text-sm">成立时间：2022年9月</div>
+        </div>
+
+        <!-- 球队数据 -->
+        <div class="card">
+            <div class="stat-card">
+                <div class="stat-item">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">成员</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">10</div>
+                    <div class="stat-label">胜场</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">负场</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">83.3%</div>
+                    <div class="stat-label">胜率</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 球队信息 -->
+        <div class="card">
+            <div class="team-info">
+                <div class="info-item">
+                    <div class="info-label">队长</div>
+                    <div class="info-value">张三</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">所属学院</div>
+                    <div class="info-value">计算机学院</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">训练时间</div>
+                    <div class="info-value">每周二、四 19:00-21:00</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">训练地点</div>
+                    <div class="info-value">中心篮球场</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">球队简介</div>
+                    <div class="info-value">计算机学院篮球队成立于2022年9月，是一支充满活力和技术的队伍。我们欢迎所有热爱篮球的计算机学院学生加入。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成员列表和比赛记录 -->
+        <div class="card">
+            <div class="tab-control">
+                <div class="tab active" id="tab-members">队员列表</div>
+                <div class="tab" id="tab-matches">比赛记录</div>
+            </div>
+            <div class="tab-content active" id="content-members">
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <div class="font-semibold">张三</div>
+                            <div class="member-role role-captain">队长</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">控球后卫 | 大三</div>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <div class="font-semibold">李四</div>
+                            <div class="member-role role-member">队员</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">大前锋 | 大二</div>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <div class="font-semibold">王五</div>
+                            <div class="member-role role-member">队员</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">中锋 | 大四</div>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <div class="font-semibold">赵六</div>
+                            <div class="member-role role-member">队员</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">得分后卫 | 大一</div>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <div class="font-semibold">孙七</div>
+                            <div class="member-role role-member">队员</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">小前锋 | 大三</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="content-matches">
+                <!-- 比赛记录 -->
+                <div class="match-item">
+                    <div class="match-date">2023年12月15日 · 校园联赛</div>
+                    <div class="match-teams">
+                        <div class="match-team home">
+                            <div>计算机学院</div>
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                        </div>
+                        <div class="match-score">86 : 72</div>
+                        <div class="match-team">
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                            <div>机械工程学院</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <div class="match-result result-win">胜</div>
+                        <div class="match-type">小组赛</div>
+                    </div>
+                </div>
+                <div class="match-item">
+                    <div class="match-date">2023年12月8日 · 校园联赛</div>
+                    <div class="match-teams">
+                        <div class="match-team home">
+                            <div>计算机学院</div>
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                        </div>
+                        <div class="match-score">92 : 85</div>
+                        <div class="match-team">
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                            <div>电子信息学院</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <div class="match-result result-win">胜</div>
+                        <div class="match-type">小组赛</div>
+                    </div>
+                </div>
+                <div class="match-item">
+                    <div class="match-date">2023年11月30日 · 校园联赛</div>
+                    <div class="match-teams">
+                        <div class="match-team home">
+                            <div>计算机学院</div>
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                        </div>
+                        <div class="match-score">78 : 82</div>
+                        <div class="match-team">
+                            <div class="match-team-logo">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                            <div>体育学院</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <div class="match-result result-lose">负</div>
+                        <div class="match-type">小组赛</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按钮 (普通用户/队长权限) -->
+        <div class="action-button">
+            申请加入球队
+        </div>
+    </div>
+    <!-- JavaScript 代码 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取标签和内容元素
+            const tabMembers = document.getElementById('tab-members');
+            const tabMatches = document.getElementById('tab-matches');
+            const contentMembers = document.getElementById('content-members');
+            const contentMatches = document.getElementById('content-matches');
+            
+            // 为标签添加点击事件
+            tabMembers.addEventListener('click', function() {
+                // 激活队员列表标签
+                tabMembers.classList.add('active');
+                tabMatches.classList.remove('active');
+                
+                // 显示队员列表内容
+                contentMembers.classList.add('active');
+                contentMatches.classList.remove('active');
+            });
+            
+            tabMatches.addEventListener('click', function() {
+                // 激活比赛记录标签
+                tabMatches.classList.add('active');
+                tabMembers.classList.remove('active');
+                
+                // 显示比赛记录内容
+                contentMatches.classList.add('active');
+                contentMembers.classList.remove('active');
+            });
+            
+            // 返回按钮功能
+            const backButton = document.querySelector('.nav-bar button');
+            backButton.addEventListener('click', function() {
+                window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>

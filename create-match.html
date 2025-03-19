@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建比赛 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .form-group:last-child {
+            border-bottom: none;
+        }
+        .form-label {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #f2f2f7;
+            font-size: 16px;
+            outline: none;
+        }
+        .form-input:focus {
+            border-bottom: 1px solid #007aff;
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f2f2f7;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            min-height: 100px;
+        }
+        .form-textarea:focus {
+            border: 1px solid #007aff;
+        }
+        .form-select {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #f2f2f7;
+            font-size: 16px;
+            outline: none;
+            background-color: transparent;
+        }
+        .form-select:focus {
+            border-bottom: 1px solid #007aff;
+        }
+        .team-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #007aff;
+        }
+        .vs-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8e8e93;
+        }
+        .action-button {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background-color: #007aff;
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-between items-center">
+            <button class="p-2">
+                <i class="fas fa-chevron-left text-gray-500"></i>
+            </button>
+            <h1 class="text-xl font-bold">创建比赛</h1>
+            <div class="w-10"></div> <!-- 占位元素，保持标题居中 -->
+        </div>
+    </div>
+
+    <!-- 表单区域 -->
+    <div class="content pb-20">
+        <div class="card">
+            <div class="form-group">
+                <div class="form-label">比赛类型</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择比赛类型</option>
+                    <option value="友谊赛">友谊赛</option>
+                    <option value="院系联赛">院系联赛</option>
+                    <option value="校级比赛">校级比赛</option>
+                    <option value="训练赛">训练赛</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">对阵球队</div>
+                <div class="team-selector">
+                    <div class="flex flex-col items-center">
+                        <div class="team-logo">
+                            <i class="fas fa-basketball-ball"></i>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <div class="text-sm font-semibold">选择主队</div>
+                            <div class="text-xs text-blue-500 mt-1">点击选择</div>
+                        </div>
+                    </div>
+                    <div class="vs-text">VS</div>
+                    <div class="flex flex-col items-center">
+                        <div class="team-logo">
+                            <i class="fas fa-basketball-ball"></i>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <div class="text-sm font-semibold">选择客队</div>
+                            <div class="text-xs text-blue-500 mt-1">点击选择</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-label">比赛时间</div>
+                <input type="datetime-local" class="form-input">
+            </div>
+            <div class="form-group">
+                <div class="form-label">比赛地点</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择比赛地点</option>
+                    <option value="中心篮球场">中心篮球场</option>
+                    <option value="体育馆">体育馆</option>
+                    <option value="西区篮球场">西区篮球场</option>
+                    <option value="东区篮球场">东区篮球场</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">比赛规则</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择比赛规则</option>
+                    <option value="标准赛制">标准赛制（4节×10分钟）</option>
+                    <option value="简化赛制">简化赛制（2节×15分钟）</option>
+                    <option value="训练赛制">训练赛制（自定义）</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">裁判安排</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择裁判</option>
+                    <option value="系统分配">系统自动分配</option>
+                    <option value="自行安排">自行安排</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">比赛备注</div>
+                <textarea class="form-textarea" placeholder="请输入比赛相关说明，如特殊规则、注意事项等"></textarea>
+            </div>
+        </div>
+
+        <!-- 提交按钮 -->
+        <div class="action-button">
+            提交申请
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比赛详情 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .match-header {
+            background-color: #007aff;
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .team-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+        }
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+        .score {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0 16px;
+        }
+        .vs {
+            font-size: 18px;
+            color: #8e8e93;
+        }
+        .match-info {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .info-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            width: 80px;
+            color: #8e8e93;
+            font-size: 14px;
+        }
+        .info-value {
+            flex: 1;
+            font-size: 14px;
+        }
+        .tab-control {
+            display: flex;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            color: #8e8e93;
+        }
+        .tab.active {
+            color: #007aff;
+            border-bottom: 2px solid #007aff;
+            font-weight: 500;
+        }
+        .player-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .player-item:last-child {
+            border-bottom: none;
+        }
+        .player-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .player-stats {
+            margin-left: auto;
+            display: flex;
+            gap: 16px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-weight: 600;
+        }
+        .stat-label {
+            font-size: 10px;
+            color: #8e8e93;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-between items-center">
+            <button class="p-2">
+                <i class="fas fa-chevron-left text-gray-500"></i>
+            </button>
+            <h1 class="text-xl font-bold">比赛详情</h1>
+            <div class="w-10"></div>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content pb-20">
+        <!-- 比赛状态 -->
+        <div class="match-header">
+            <div class="text-sm mb-1">常规赛</div>
+            <div class="text-lg font-semibold mb-1">计算机学院 vs 经济学院</div>
+            <div class="text-sm">今天 19:30 | 中心篮球场</div>
+        </div>
+
+        <!-- 比分 -->
+        <div class="card">
+            <div class="team-score">
+                <div class="team">
+                    <div class="team-logo bg-blue-100 text-blue-500">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <div class="font-semibold">计算机学院</div>
+                </div>
+                <div class="score">-- : --</div>
+                <div class="team">
+                    <div class="team-logo bg-green-100 text-green-500">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="font-semibold">经济学院</div>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-500 pb-4">比赛未开始</div>
+        </div>
+
+        <!-- 比赛信息 -->
+        <div class="card">
+            <div class="match-info">
+                <div class="info-item">
+                    <div class="info-label">比赛时间</div>
+                    <div class="info-value">2023年3月15日 19:30</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">比赛地点</div>
+                    <div class="info-value">中心篮球场</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">比赛类型</div>
+                    <div class="info-value">常规赛</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">裁判</div>
+                    <div class="info-value">李四（裁判长）</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 球队信息 -->
+        <div class="card">
+            <div class="tab-control">
+                <div class="tab active">计算机学院</div>
+                <div class="tab">经济学院</div>
+            </div>
+            <div>
+                <div class="player-item">
+                    <div class="player-number">1</div>
+                    <div>
+                        <div class="font-semibold">王小明</div>
+                        <div class="text-xs text-gray-500">控球后卫 | 队长</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">15.2</div>
+                            <div class="stat-label">得分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.5</div>
+                            <div class="stat-label">篮板</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">6.8</div>
+                            <div class="stat-label">助攻</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-item">
+                    <div class="player-number">5</div>
+                    <div>
+                        <div class="font-semibold">张大力</div>
+                        <div class="text-xs text-gray-500">大前锋</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">12.8</div>
+                            <div class="stat-label">得分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8.2</div>
+                            <div class="stat-label">篮板</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2.1</div>
+                            <div class="stat-label">助攻</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-item">
+                    <div class="player-number">7</div>
+                    <div>
+                        <div class="font-semibold">刘强</div>
+                        <div class="text-xs text-gray-500">得分后卫</div>
+                    </div>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <div class="stat-value">18.5</div>
+                            <div class="stat-label">得分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3.2</div>
+                            <div class="stat-label">篮板</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2.8</div>
+                            <div class="stat-label">助攻</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

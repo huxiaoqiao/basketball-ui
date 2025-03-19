@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛事 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #8e8e93;
+        }
+        .tab-item.active {
+            color: #007aff;
+        }
+        .tab-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .match-item {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .match-item:last-child {
+            border-bottom: none;
+        }
+        .match-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .status-upcoming {
+            background-color: #e5f5ff;
+            color: #007aff;
+        }
+        .status-live {
+            background-color: #ffeae5;
+            color: #ff3b30;
+        }
+        .status-finished {
+            background-color: #e5fff2;
+            color: #34c759;
+        }
+        .segment-control {
+            display: flex;
+            background-color: #f2f2f7;
+            border-radius: 8px;
+            padding: 2px;
+            margin: 16px;
+        }
+        .segment-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+        .segment-item.active {
+            background-color: #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            font-weight: 500;
+        }
+        .action-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background-color: #007aff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-center items-center">
+            <h1 class="text-xl font-bold">赛事</h1>
+        </div>
+    </div>
+
+    <!-- 分段控制器 -->
+    <div class="segment-control">
+        <div class="segment-item active">全部</div>
+        <div class="segment-item">即将开始</div>
+        <div class="segment-item">进行中</div>
+        <div class="segment-item">已结束</div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content pb-16">
+        <!-- 比赛列表 -->
+        <div class="card">
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <span class="match-status status-upcoming">即将开始</span>
+                            <span class="text-sm text-gray-500">今天 19:30</span>
+                        </div>
+                        <div class="font-semibold">计算机学院 vs 经济学院</div>
+                        <div class="text-sm text-gray-500 mt-1">中心篮球场 | 常规赛</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <span class="match-status status-live">进行中</span>
+                            <span class="text-sm text-gray-500">第三节 05:30</span>
+                        </div>
+                        <div class="font-semibold">数学学院 vs 外语学院</div>
+                        <div class="text-sm text-gray-500 mt-1">北区篮球场 | 季后赛</div>
+                        <div class="font-medium mt-2">56 : 48</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <span class="match-status status-finished">已结束</span>
+                            <span class="text-sm text-gray-500">昨天 16:00</span>
+                        </div>
+                        <div class="font-semibold">物理学院 vs 化学学院</div>
+                        <div class="text-sm text-gray-500 mt-1">东区篮球场 | 常规赛</div>
+                        <div class="font-medium mt-2">78 : 65</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <span class="match-status status-upcoming">即将开始</span>
+                            <span class="text-sm text-gray-500">明天 14:00</span>
+                        </div>
+                        <div class="font-semibold">医学院 vs 艺术学院</div>
+                        <div class="text-sm text-gray-500 mt-1">中心篮球场 | 常规赛</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <span class="match-status status-finished">已结束</span>
+                            <span class="text-sm text-gray-500">前天 20:00</span>
+                        </div>
+                        <div class="font-semibold">机械学院 vs 土木学院</div>
+                        <div class="text-sm text-gray-500 mt-1">西区篮球场 | 常规赛</div>
+                        <div class="font-medium mt-2">62 : 70</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发起比赛按钮 (队长/裁判权限) -->
+    <div class="action-button">
+        <i class="fas fa-plus text-white text-xl"></i>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-basketball-ball"></i></div>
+            <div>赛事</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>论坛</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div>我的</div>
+        </div>
+    </div>
+</body>
+</html>

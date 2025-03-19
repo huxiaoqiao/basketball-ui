@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园篮球联盟管理APP原型</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f5f7;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        .prototype-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 10px solid #1a1a1a;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+        }
+        .screen {
+            height: calc(100% - 44px - 83px);
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .screen-title {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold text-center mb-8">校园篮球联盟管理APP原型</h1>
+        <div class="prototype-container">
+            <!-- 首页 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="home.html" title="首页"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">首页</p>
+            </div>
+
+            <!-- 赛事 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="match.html" title="赛事"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">赛事</p>
+            </div>
+
+            <!-- 论坛 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="forum.html" title="论坛"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">论坛</p>
+            </div>
+
+            <!-- 我的 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="profile.html" title="我的"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">我的</p>
+            </div>
+
+            <!-- 比赛详情 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="match-detail.html" title="比赛详情"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">比赛详情</p>
+            </div>
+
+            <!-- 球队详情 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="team-detail.html" title="球队详情"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">球队详情</p>
+            </div>
+            <!-- 登录 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="login.html" title="登录"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">登录</p>
+            </div>
+
+            <!-- 注册 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="register.html" title="注册"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">注册</p>
+            </div>
+
+            <!-- 创建球队 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="create-team.html" title="创建球队"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">创建球队</p>
+            </div>
+
+            <!-- 创建比赛 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="create-match.html" title="创建比赛"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">创建比赛</p>
+            </div>
+
+            <!-- 设置 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="settings.html" title="设置"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">设置</p>
+            </div>
+
+            <!-- 消息通知 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="notification.html" title="消息通知"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">消息通知</p>
+            </div>
+
+            <!-- 球队列表 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="team-list.html" title="球队列表"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">球队列表</p>
+            </div>
+
+            <!-- 帖子详情 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="post-detail.html" title="帖子详情"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">帖子详情</p>
+            </div>
+
+            <!-- 排行榜 -->
+            <div>
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div>
+                            <span class="mr-2"><i class="fas fa-signal"></i></span>
+                            <span class="mr-2"><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-full"></i></span>
+                        </div>
+                    </div>
+                    <div class="screen">
+                        <iframe src="ranking.html" title="排行榜"></iframe>
+                    </div>
+                </div>
+                <p class="screen-title">排行榜</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建球队 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .form-group:last-child {
+            border-bottom: none;
+        }
+        .form-label {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #f2f2f7;
+            font-size: 16px;
+            outline: none;
+        }
+        .form-input:focus {
+            border-bottom: 1px solid #007aff;
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f2f2f7;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            min-height: 100px;
+        }
+        .form-textarea:focus {
+            border: 1px solid #007aff;
+        }
+        .form-select {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #f2f2f7;
+            font-size: 16px;
+            outline: none;
+            background-color: transparent;
+        }
+        .form-select:focus {
+            border-bottom: 1px solid #007aff;
+        }
+        .upload-box {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            border: 2px dashed #d1d1d6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8e8e93;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .action-button {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background-color: #007aff;
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-between items-center">
+            <button class="p-2">
+                <i class="fas fa-chevron-left text-gray-500"></i>
+            </button>
+            <h1 class="text-xl font-bold">创建球队</h1>
+            <div class="w-10"></div> <!-- 占位元素，保持标题居中 -->
+        </div>
+    </div>
+
+    <!-- 表单区域 -->
+    <div class="content pb-20">
+        <div class="card">
+            <div class="form-group">
+                <div class="form-label">球队名称</div>
+                <input type="text" class="form-input" placeholder="请输入球队名称">
+            </div>
+            <div class="form-group">
+                <div class="form-label">所属学院</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择所属学院</option>
+                    <option value="计算机学院">计算机学院</option>
+                    <option value="机械工程学院">机械工程学院</option>
+                    <option value="电子信息学院">电子信息学院</option>
+                    <option value="经济管理学院">经济管理学院</option>
+                    <option value="外国语学院">外国语学院</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">球队类型</div>
+                <select class="form-select">
+                    <option value="" disabled selected>请选择球队类型</option>
+                    <option value="学院球队">学院球队</option>
+                    <option value="社团球队">社团球队</option>
+                    <option value="自由球队">自由球队</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="form-label">训练时间</div>
+                <input type="text" class="form-input" placeholder="例如：每周二、四 19:00-21:00">
+            </div>
+            <div class="form-group">
+                <div class="form-label">训练地点</div>
+                <input type="text" class="form-input" placeholder="例如：中心篮球场">
+            </div>
+            <div class="form-group">
+                <div class="form-label">球队简介</div>
+                <textarea class="form-textarea" placeholder="请简要介绍球队情况，不超过200字"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="form-label">球队logo</div>
+                <div class="upload-box">
+                    <i class="fas fa-camera upload-icon"></i>
+                    <div>上传图片</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 提交按钮 -->
+        <div class="action-button">
+            创建球队
+        </div>
+    </div>
+</body>
+</html>

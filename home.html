@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 校园篮球联盟</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f2f7;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .nav-bar {
+            background-color: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #8e8e93;
+        }
+        .tab-item.active {
+            color: #007aff;
+        }
+        .tab-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 20px;
+            margin: 16px 16px 12px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 16px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 16px;
+            gap: 16px;
+        }
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #f2f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 24px;
+            color: #007aff;
+        }
+        .match-item, .news-item, .team-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .match-item:last-child, .news-item:last-child, .team-item:last-child {
+            border-bottom: none;
+        }
+        .badge {
+            background-color: #ff3b30;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 10px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+    </style>
+</head>
+<body class="pb-16">
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+        <div class="flex justify-center items-center">
+            <h1 class="text-xl font-bold">校园篮球联盟</h1>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content pb-16">
+        <!-- 快捷操作 -->
+        <div class="card">
+            <div class="quick-actions">
+                <div class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <span>发起比赛</span>
+                </div>
+                <div class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span>加入球队</span>
+                </div>
+                <div class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <span>赛事排名</span>
+                </div>
+                <div class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <span>公告</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 近期比赛 -->
+        <h2 class="section-title">近期比赛</h2>
+        <div class="card">
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-sm text-gray-500">今天 19:30</div>
+                        <div class="font-semibold mt-1">计算机学院 vs 经济学院</div>
+                        <div class="text-sm text-gray-500 mt-1">中心篮球场</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-sm text-gray-500">明天 16:00</div>
+                        <div class="font-semibold mt-1">物理学院 vs 化学学院</div>
+                        <div class="text-sm text-gray-500 mt-1">东区篮球场</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+            <div class="match-item">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-sm text-gray-500">周六 10:00</div>
+                        <div class="font-semibold mt-1">机械学院 vs 土木学院</div>
+                        <div class="text-sm text-gray-500 mt-1">西区篮球场</div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
+                        查看
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 热门公告 -->
+        <h2 class="section-title">热门公告</h2>
+        <div class="card">
+            <div class="news-item">
+                <div class="font-semibold">2023年校园篮球联赛报名开始</div>
+                <div class="text-sm text-gray-500 mt-1">报名时间：3月1日-3月15日</div>
+                <div class="text-sm mt-2">本次比赛分为男子组和女子组，欢迎各学院组队参加...</div>
+            </div>
+            <div class="news-item">
+                <div class="font-semibold">关于篮球场地维修的通知</div>
+                <div class="text-sm text-gray-500 mt-1">维修时间：3月5日-3月10日</div>
+                <div class="text-sm mt-2">中心篮球场将进行为期一周的维修，期间请使用其他场地...</div>
+            </div>
+        </div>
+
+        <!-- 推荐球队 -->
+        <h2 class="section-title">推荐球队</h2>
+        <div class="card">
+            <div class="team-item">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-basketball-ball text-orange-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">计算机学院篮球队</div>
+                        <div class="text-sm text-gray-500 mt-1">成员：15人 | 战绩：10胜2负</div>
+                    </div>
+                </div>
+            </div>
+            <div class="team-item">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-basketball-ball text-blue-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">经济学院篮球队</div>
+                        <div class="text-sm text-gray-500 mt-1">成员：12人 | 战绩：8胜4负</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item active">
+            <div class="tab-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-basketball-ball"></i></div>
+            <div>赛事</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-comment-alt"></i></div>
+            <div>论坛</div>
+        </div>
+        <div class="tab-item">
+            <div class="tab-icon"><i class="fas fa-user"></i></div>
+            <div>我的</div>
+        </div>
+    </div>
+</body>
+</html>
