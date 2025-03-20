@@ -92,7 +92,7 @@
             display: flex;
             align-items: center;
             padding: 12px 16px;
-            border-bottom: 1px solid #f2f2f7;
+            border-bottom: none;
         }
         .member-item:last-child {
             border-bottom: none;
@@ -238,7 +238,7 @@
             </button>
             <h1 class="text-xl font-bold">球队详情</h1>
             <button class="p-2">
-                <!-- <i class="fas fa-share text-gray-500"></i> -->
+                <i class="fas fa-share text-gray-500"></i>
             </button>
         </div>
     </div>
@@ -306,7 +306,6 @@
         <div class="card">
             <div class="tab-control">
                 <div class="tab active" id="tab-members">队员列表</div>
-                <div class="tab" id="tab-matches">比赛记录</div>
             </div>
             <div class="tab-content active" id="content-members">
                 <div class="member-item">
@@ -370,75 +369,6 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-content" id="content-matches">
-                <!-- 比赛记录 -->
-                <div class="match-item">
-                    <div class="match-date">2023年12月15日 · 校园联赛</div>
-                    <div class="match-teams">
-                        <div class="match-team home">
-                            <div>计算机学院</div>
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                        </div>
-                        <div class="match-score">86 : 72</div>
-                        <div class="match-team">
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                            <div>机械工程学院</div>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <div class="match-result result-win">胜</div>
-                        <div class="match-type">小组赛</div>
-                    </div>
-                </div>
-                <div class="match-item">
-                    <div class="match-date">2023年12月8日 · 校园联赛</div>
-                    <div class="match-teams">
-                        <div class="match-team home">
-                            <div>计算机学院</div>
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                        </div>
-                        <div class="match-score">92 : 85</div>
-                        <div class="match-team">
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                            <div>电子信息学院</div>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <div class="match-result result-win">胜</div>
-                        <div class="match-type">小组赛</div>
-                    </div>
-                </div>
-                <div class="match-item">
-                    <div class="match-date">2023年11月30日 · 校园联赛</div>
-                    <div class="match-teams">
-                        <div class="match-team home">
-                            <div>计算机学院</div>
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                        </div>
-                        <div class="match-score">78 : 82</div>
-                        <div class="match-team">
-                            <div class="match-team-logo">
-                                <i class="fas fa-basketball-ball"></i>
-                            </div>
-                            <div>体育学院</div>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <div class="match-result result-lose">负</div>
-                        <div class="match-type">小组赛</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- 操作按钮 (普通用户/队长权限) -->
@@ -446,41 +376,13 @@
             申请加入球队
         </div>
     </div>
-    <!-- JavaScript 代码 -->
     <script>
+        // 页面加载完成后自动显示队员列表
         document.addEventListener('DOMContentLoaded', function() {
-            // 获取标签和内容元素
-            const tabMembers = document.getElementById('tab-members');
-            const tabMatches = document.getElementById('tab-matches');
-            const contentMembers = document.getElementById('content-members');
-            const contentMatches = document.getElementById('content-matches');
-            
-            // 为标签添加点击事件
-            tabMembers.addEventListener('click', function() {
-                // 激活队员列表标签
-                tabMembers.classList.add('active');
-                tabMatches.classList.remove('active');
-                
-                // 显示队员列表内容
-                contentMembers.classList.add('active');
-                contentMatches.classList.remove('active');
-            });
-            
-            tabMatches.addEventListener('click', function() {
-                // 激活比赛记录标签
-                tabMatches.classList.add('active');
-                tabMembers.classList.remove('active');
-                
-                // 显示比赛记录内容
-                contentMatches.classList.add('active');
-                contentMembers.classList.remove('active');
-            });
-            
-            // 返回按钮功能
-            const backButton = document.querySelector('.nav-bar button');
-            backButton.addEventListener('click', function() {
-                window.history.back();
-            });
+            const membersContent = document.getElementById('content-members');
+            if (membersContent) {
+                membersContent.classList.add('active');
+            }
         });
     </script>
 </body>
